@@ -16,5 +16,7 @@
 #include <inttypes.h>
 #include "pico/rand.h"
 
+#include "ws2812.h"
+
 #endif
 

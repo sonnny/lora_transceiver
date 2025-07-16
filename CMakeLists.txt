@@ -7,6 +7,9 @@ add_library(sx1262lib
   sx1262/Lora.cpp
   sx1262/sx126x_hal.c
   sx1262/sx126x.c
+
+#non lora stuff
+  sx1262/ws2812.c
   )
 
 target_include_directories(sx1262lib PUBLIC  ${CMAKE_CURRENT_LIST_DIR}/include)
@@ -16,4 +19,9 @@ target_link_libraries(sx1262lib
   pico_stdlib
   hardware_spi
   hardware_gpio
+  hardware_pio
+  hardware_clocks
   )
+  
+pico_generate_pio_header(sx1262lib ${CMAKE_CURRENT_LIST_DIR}/include/ws2812.pio)
+

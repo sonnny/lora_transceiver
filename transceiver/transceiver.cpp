@@ -1,7 +1,19 @@
-#include "transceiver.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdint.h>
+#include <inttypes.h>
 
-#define LED_GPIO 25
-#define BUTTON 2
+#include "pico/stdlib.h"
+#include "hardware/spi.h"
+#include "pico/time.h"
+#include "pico/binary_info.h"
+#include "pico/rand.h"
+
+#include "Lora.h"
+#include "ws2812.h"
+
+#define LED_GPIO   25
+#define BUTTON      2
 
 
 Lora *lora;
@@ -14,6 +26,8 @@ int main(){
 stdio_init_all(); sleep_ms(2000);
  
     uint32_t time_ms = 0;
+  
+ws2812_init();
   
 gpio_init(BUTTON);
 gpio_set_dir(BUTTON,GPIO_IN);
@@ -35,16 +49,19 @@ while (1){
     sprintf(payload,"temp is %" PRIu32 "\r\n",value);
     lora->SetTxEnable();
     lora->SendData(22, payload, strlen(payload));
+    ws2812_display(0x00100010);
     sleep_ms(100);}
     //lora->ProcessIrq();
     //lora->CheckDeviceStatus();}
     
+  ws2812_display(0x00001000);
   lora->SetRxEnable();
   lora->SetToReceiveMode();
   lora->ProcessIrq();
   lora->CheckDeviceStatus();
 
   hal_gpio_put(LED_GPIO, 1);
+  ws2812_display(0x10101010);
   sleep_ms(50);}
 
   return 0;}

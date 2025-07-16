@@ -13,6 +13,8 @@ int main(){
 
 stdio_init_all(); sleep_ms(2000);
  
+//ws2812_init();
+
     uint32_t time_ms = 0;
   
 gpio_init(BUTTON);
