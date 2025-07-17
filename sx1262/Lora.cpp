@@ -3,6 +3,8 @@
 #include "pico/stdlib.h"
 #include <stdio.h>
 
+#include "ws2812.h"
+
 Lora::Lora() {
     printf("[Lora] Loading driver...\n");
     context.busy = 18;
@@ -279,8 +281,11 @@ void Lora::receiveData() {
 	if(rx_buf_stat.pld_len_in_bytes > 0) {
 		uint8_t buf[256];
 		sx126x_read_buffer(&context, rx_buf_stat.buffer_start_pointer, buf, rx_buf_stat.pld_len_in_bytes);
-		if(rx_buf_stat.pld_len_in_bytes > 0)
+		if(rx_buf_stat.pld_len_in_bytes > 0) {
+		        ws2812_display(0x10000000);//green
 			printf("[Lora] Received Data: %s\n", (char *)buf);
+			sleep_ms(1500);
+	        }
 	}
 
 	SetToReceiveMode();

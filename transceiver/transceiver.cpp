@@ -40,6 +40,7 @@ printf("[Main] Setting up Lora Chip");
   
 lora = new Lora();
 printf("[Main] Done");
+
 while (1){
   hal_gpio_put(LED_GPIO, 0);
   time_ms = time_us_32();
@@ -50,7 +51,8 @@ while (1){
     lora->SetTxEnable();
     lora->SendData(22, payload, strlen(payload));
     ws2812_display(0x00100010);
-    sleep_ms(100);}
+    sleep_ms(50);}
+   // sleep_ms(100);}
     //lora->ProcessIrq();
     //lora->CheckDeviceStatus();}
     
@@ -59,10 +61,12 @@ while (1){
   lora->SetToReceiveMode();
   lora->ProcessIrq();
   lora->CheckDeviceStatus();
+  sleep_ms(50);
 
   hal_gpio_put(LED_GPIO, 1);
   ws2812_display(0x10101010);
   sleep_ms(50);}
+ // sleep_ms(50);}
 
   return 0;}
 
